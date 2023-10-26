@@ -16,6 +16,7 @@ const DataContextProvider = ({ children }) => {
     try {
       const { data } = await axios(BASE_URL_DATA);
       setMockData(data);
+      console.log(data);
     } catch (error) {
       console.log(error);
     }
