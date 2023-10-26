@@ -4,7 +4,7 @@ import { createContext, useEffect, useState } from "react";
 export const DataContext = createContext();
 
 const DataContextProvider = ({ children }) => {
-  const [mockData, setMockData] = useState("");
+  const [mockData, setMockData] = useState([]);
 
   const BASE_URL_DATA = `https://63ef8796271439b7fe70b81b.mockapi.io/api/v1/users`;
 
