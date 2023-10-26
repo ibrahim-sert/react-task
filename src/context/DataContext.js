@@ -60,6 +60,7 @@ const DataContextProvider = ({ children }) => {
     postData,
     putData,
     delData,
+    getData,
   };
   return <DataContext.Provider value={values}>{children}</DataContext.Provider>;
 };

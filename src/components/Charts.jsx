@@ -7,7 +7,7 @@ import * as Yup from "yup";
 
 const validationSchema = Yup.object().shape({
   date: Yup.string().required("Ay seçmelisiniz"),
-  frontendSalary: Yup.number("Lütfen sadece numara giriniz")
+  frontendSalary: Yup.number()
     .typeError("Lütfen bir numara girin")
     .required("Numara alanı gereklidir"),
   backendSalary: Yup.number()
@@ -17,13 +17,13 @@ const validationSchema = Yup.object().shape({
 
 const Charts = () => {
   const [info, setInfo] = useState({
-    id: 0,
     date: "",
-    frontendSalary: null,
-    backendSalary: null,
+    frontendSalary: 0,
+    backendSalary: 0,
   });
 
-  const { mockData, delData, postData, putData } = useContext(DataContext);
+  const { mockData, delData, postData, putData, getData } =
+    useContext(DataContext);
 
   const handleChange = (e) => {
     e.preventDefault();
@@ -49,9 +49,13 @@ const Charts = () => {
   };
   return (
     <Formik
-      initialValues={{ date: "", frontendSalary: null, backendSalary: null }}
+      initialValues={{ date: "", frontendSalary: 0, backendSalary: 0 }}
       validationSchema={validationSchema}
-      onSubmit={handleSubmit}
+      onSubmit={(values, actions) => {
+        console.log(values);
+        actions.resetForm();
+        actions.setSubmitting(false);
+      }}
     >
       <div className="flex ">
         <Card className="basis-2/3 h-[100vh] bg-slate-300">
@@ -77,17 +81,17 @@ const Charts = () => {
 
               <Field
                 name="date"
-                id="date"
+                id="fed"
                 type="month"
                 variant="outlined"
                 value={info?.date}
                 onChange={handleChange}
                 required
-                className="mb-2 bg-gray-500 text-white placeholder-white placeholder:opacity-50 text-sm rounded-lg block w-full p-2.5 "
+                className="mb-2 bg-gray-500 text-white placeholder-white placeholder:opacity-50 text-sm rounded-lg block w-full p-2.5"
                 placeholder="Enter Date"
               />
               <ErrorMessage
-                className=" text-red-700 mb-2"
+                className=" text-red-700 mb-2 invalid-feedback"
                 name="date"
                 component="div"
               />
@@ -106,7 +110,7 @@ const Charts = () => {
                 placeholder="Enter Frontend Dev. Salary"
               />
               <ErrorMessage
-                className=" text-red-700 mb-2"
+                className=" text-red-700 mb-2 invalid-feedback"
                 name="frontendSalary"
                 component="div"
               />
